@@ -12,26 +12,31 @@
             </a>
             <div class="flex items-center space-x-4">
                 <img
-                  src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+                  src="{{ message_to_pic }}"
                   class="rounded-full h-12 w-auto"
                   alt=""
                 />
-                <p class="text-text text-lg md:text-xl">Jeffrey</p>
+                <p class="text-text text-lg md:text-xl">{{ message_to }}</p>
             </div>
         </div>
-        <div id="chat-log" class="flex-grow flex flex-col space-y-6 max-h-[675px] overflow-auto">
-            <div class="flex flex-col items-start">
-                <span class="bg-[#2E2B69] inline-block w-fit-content text-text rounded-xl rounded-tl-none py-2 px-4">
-                    Cheerful cowboys make Jolly Ranchers
-                </span>
-                <span class="text-hint text-xs md:text-sm inline-block mt-2">09:00 am</span>
-            </div>
-            <div class="flex flex-col items-end">
-                <span class="bg-[#1868FB] inline-block w-fit-content text-text rounded-xl rounded-tr-none py-2 px-4">
-                    Yes
-                </span>
-                <span class="text-hint text-xs md:text-sm inline-block mt-2">09:00 am</span>
-            </div>
+        <div id="chat-log" class="flex-grow flex flex-col space-y-6 overflow-auto">
+            {% for message in messages %}
+                {% if message.message_from == request.user %}
+                <div class="flex flex-col items-end">
+                    <span class="bg-[#1868FB] inline-block w-fit-content text-text rounded-xl rounded-tr-none py-2 px-4">
+                        {{ message.message }}
+                    </span>
+                    <span class="text-hint text-xs md:text-sm inline-block mt-2">{{ message.timestamp }}</span>
+                </div>
+                {% else %}
+                <div class="flex flex-col items-start">
+                    <span class="bg-[#2E2B69] inline-block w-fit-content text-text rounded-xl rounded-tl-none py-2 px-4">
+                        {{ message.message }}
+                    </span>
+                    <span class="text-hint text-xs md:text-sm inline-block mt-2">{{ message.timestamp }}</span>
+                </div>
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="flex justify-between bg-[#2E2B69] rounded-md">
             <input type="text" id="chat-message-input" class="sm:flex-grow py-3 px-2 sm:px-4 inline-block focus:outline-none bg-transparent text-hint" placeholder="Type a message..." />
@@ -50,13 +55,37 @@
         const message_to = "{{ message_to }}";
         const room = "{{ room }}";
 
-        console.log(message_from, message_to, room);
-        const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + room + '/');
+        function getMessage(sender, message){
+            if(sender == message_from){
+                return `<div class="flex flex-col items-end">
+                    <span class="bg-[#1868FB] inline-block w-fit-content text-text rounded-xl rounded-tr-none py-2 px-4">
+                        ${message}
+                    </span>
+                    <span class="text-hint text-xs md:text-sm inline-block mt-2">${getTime()}</span>
+                </div>
+                `;
+            }else{
+                return `<div class="flex flex-col items-start">
+                    <span class="bg-[#2E2B69] inline-block w-fit-content text-text rounded-xl rounded-tl-none py-2 px-4">
+                        ${message}
+                    </span>
+                    <span class="text-hint text-xs md:text-sm inline-block mt-2">${getTime()}</span>
+                </div>`;
+            }
+        }
+        function getTime(){
+            const d = new Date();
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const ampm = d.getHours() >= 12 ? 'pm' : 'am';
+            return months[d.getMonth()] + ". " + d.getDate() + ", " + d.getFullYear() + ", " + (d.getHours()%12 == 0?12 : d.getHours()) + ":" + d.getMinutes() + " " + ampm;
+        }
 
+        const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + room + '/');
+            
         chatSocket.onmessage = (e) => {
             const data = JSON.parse(e.data);
             console.log(data);
-            document.querySelector('#chat-log').innerHTML += `<b>${data.message_from}</b> - ${data.message}<br>`;
+            document.querySelector('#chat-log').innerHTML += getMessage(data.message_from, data.message);
         };
 
         chatSocket.onclose = (e) => {

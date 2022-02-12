@@ -16,14 +16,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-        
-        # await self.channel_layer.group_send(
-        #     self.room_group_name,
-        #     {
-        #         'type': 'new_user',
-        #         'new_user': self.scope['user'].username,
-        #     }
-        # )
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -31,21 +23,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        # await self.channel_layer.group_send(
-        #     self.room_group_name,
-        #     {
-        #         'type': 'user_disconnet',
-        #         'new_user': self.scope['user'].username
-        #     }
-        # )
-
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         message_from = text_data_json['message_from']
         message_to = text_data_json['message_to']
-
-            
+        
+        await record_message(message, message_from, message_to)  
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -69,9 +53,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message_from = event['message_from']
         message_to = event['message_to']
 
-        await record_message(message, message_from, message_to)  
-        print('Sending: ', message)
-
         await self.send(text_data=json.dumps({
             'meta': "new_message",
             'message': message,
@@ -83,6 +64,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 @database_sync_to_async
 def record_message(message, message_from, message_to):
+    print('Creating entry: ', message)
     Message.objects.create(
         message=message,
         message_from=User.objects.get(username=message_from),
