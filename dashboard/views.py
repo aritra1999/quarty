@@ -11,6 +11,6 @@ def home_view(request):
 
 def add_post(request):
     context = {
-        'title': 'Add Post' 
+        'title': 'Add Post'
     }
     return render(request, 'dashboard/add_post.html', {})
