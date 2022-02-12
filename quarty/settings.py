@@ -38,12 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #Social Auth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-
+    # Django channel
+    'channels',
+    # Project apps
     'accounts',
     'chat',
     'dashboard',
@@ -78,8 +80,19 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'quarty.asgi.application'
 WSGI_APPLICATION = 'quarty.wsgi.application'
 
+
+CHANNEL_LAYERS = {
+    "default": {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
