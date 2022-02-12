@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %} 
+{% load static %} 
+{% block extraHead %}{% endblock extraHead %} 
+{% block content %}
+
+<div class="flex">
+  <div>
+    <img
+      src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+      class="rounded-full h-24 w-24"
+      alt=""
+    />
+  </div>
+  <div class="ml-8">
+    Name: {{ user.socialaccount_set.all.0.extra_data.name }} <br>
+    Email: {{ user.socialaccount_set.all.0.extra_data.email }}
+  </div>
+</div>
+
+{% endblock content %}
+{% block extraFoot %}
+{% endblock extraFoot %}

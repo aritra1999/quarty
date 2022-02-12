@@ -17,31 +17,6 @@
             </div>
             <div class="md:flex items-center">
                 {% if request.user.is_authenticated %}
-                    <div class="flex justify-center mr-6">
-                        <div x-data="{ createClass: false }" class="relative my-2">
-                            <button @click="createClass = !createClass" class="relative z-10 block px-3 py-2 flex w-60 mr-6 justify-center items-center bg-blue-700 hover:bg-blue-800 text-white rounded-lg">
-                                Create Classroom
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                            </button>
-                            <div x-show="createClass" @click="createClass = false" class="fixed inset-0 h-full w-full z-10"></div>
-                            <div x-show="createClass" class="absolute right-0 mt-2 p-4 w-auto bg-white rounded-md shadow-xl z-20">
-                                <form action="" method="POST">{% csrf_token %}
-                                    <div class="flex flex-col space-y-4">
-                                        <input type="text" name="classname" placeholder="Classroom Name" class="p-3 w-96 bg-gray-100 rounded-lg border focus:border-gray-200"  required/>
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox" name="oneway"/>
-                                            <span class="ml-2">One way classroom?</span>
-                                        </label>
-                                        <button type="submit" class="px-4 py-2 ml-auto flex w-max justify-center items-center bg-blue-700 hover:bg-blue-800 text-white rounded-lg">
-                                            Create  
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                     {{ request.user }}
                     <div class="flex justify-center">
                         <div x-data="{ dropdownOpen: false }" class="relative my-2">
@@ -67,7 +42,6 @@
                     </form>
                 {% endif %}
             </div>
-
             <div class="md:hidden flex items-center">
                 <button class="mobile-menu-button">
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

@@ -8,8 +8,7 @@ from dashboard.views import (
 )
 
 from accounts.views import (
-    signin_view,
-    signup_view
+    profile_view
 )
 
 urlpatterns = [
@@ -18,5 +17,6 @@ urlpatterns = [
     path('', home_view, name='home'),
 
     path('accounts/', include('allauth.urls')),
+    path('profile/', profile_view, name="profile"),
     path('logout', LogoutView.as_view(), name='logout'),
 ]
