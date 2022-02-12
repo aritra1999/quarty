@@ -1,63 +1,61 @@
 {% load socialaccount %}
+{% load static %}
 <!-- navbar goes here -->
-<nav class="absolute top-0 w-screen">
-    <div class="mx-auto max-w-screen">
-        <div class="flex justify-between shadow-md px-12">
-            <div class="flex space-x-4">
-                <div>
-                    <a href="{% url 'home' %}" class="flex items-center py-8 px-2 text-gray-700 hover:text-gray-900">
-                        <svg class="h-6 w-6 mr-1 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                        <span class="font-bold">Quarty</span>
-                    </a>
-                </div>
-            </div>
-            <div class="md:flex items-center">
-                {% if request.user.is_authenticated %}
-                    {{ request.user }}
-                    <div class="flex justify-center">
-                        <div x-data="{ dropdownOpen: false }" class="relative my-2">
-                            <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block rounded-md p-2 focus:outline-none">
-                                <svg class="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                            <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
-                            <div x-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                                <a href="#" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-700 hover:text-white">
-                                    Help
-                                </a>
-                                <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-700 hover:text-white">
-                                    Sign Out
-                                </a>
-                            </div>
+<nav class="h-16 bg-secondaryBg w-full absolute top-0 left-0">
+    <div class="container mx-auto h-full items-center px-4 flex justify-between">
+        <a href="/" class="inline-block">
+            <img src="{% static "images/logo.svg" %}" alt="Quarty" draggable="false">
+        </a>
+        {% if request.user.is_authenticated %}
+            <div class="flex items-center gap-2 md:gap-4">
+                <a href="{% url 'chat_list' %}"><img src="{% static 'images/message.svg' %}" alt="Quarty" height="32" width="32" draggable="false"></a>
+                    <div x-data="{ dropdownOpen: false }" class="relative my-2">
+                        <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 flex items-center rounded-md p-2 focus:outline-none">
+                            <p class="text-text text-sm md:text-base mr-2">{{ request.user.first_name }}</p>
+                            <svg width="16px" height="10px" viewBox="0 0 8 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Rounded" transform="translate(-482.000000, -3442.000000)">
+                                        <g id="Navigation" transform="translate(100.000000, 3378.000000)">
+                                            <g id="-Round-/-Navigation-/-arrow_drop_down" transform="translate(374.000000, 54.000000)">
+                                                <g>
+                                                    <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                                                    <path d="M8.71,11.71 L11.3,14.3 C11.69,14.69 12.32,14.69 12.71,14.3 L15.3,11.71 C15.93,11.08 15.48,10 14.59,10 L9.41,10 C8.52,10 8.08,11.08 8.71,11.71 Z" id="🔹-Icon-Color" fill="#fff"></path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </button>
+                        <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
+                        <div x-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                            <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-700 hover:text-white">
+                                Profile
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-700 hover:text-white">
+                                Help
+                            </a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-700 hover:text-white">
+                                Sign Out
+                            </a>
                         </div>
                     </div>
-                {% else %}
-                    <form action="{% provider_login_url 'google' %}" method="POST">{% csrf_token %}
-                        <button type="submit">Login with Google</button>
-                    </form>
-                {% endif %}
+                </div>
             </div>
-            <div class="md:hidden flex items-center">
-                <button class="mobile-menu-button">
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+        {% else %}
+            <form action="{% provider_login_url 'google' %}" method="POST">{% csrf_token %}
+                <button class="bg-text text-sm md:text-base font-medium px-4 py-2 outline-none rounded-md" type="submit">
+                    <span class="flex items-center gap-2">
+                        <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9527 11.9943C21.9527 11.2154 21.8828 10.4665 21.753 9.74756H11.4082V13.9963H17.3195C17.0649 15.3693 16.291 16.5326 15.1277 17.3114V20.0674H18.6775C20.7545 18.1552 21.9527 15.3393 21.9527 11.9943Z" fill="#4285F4"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4088 22.7285C14.3745 22.7285 16.8608 21.7449 18.6781 20.0674L15.1284 17.3114C14.1448 17.9705 12.8867 18.3599 11.4088 18.3599C8.54804 18.3599 6.1266 16.4277 5.26287 13.8315H1.59326V16.6774C3.4006 20.2671 7.11515 22.7285 11.4088 22.7285Z" fill="#34A853"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2622 13.8322C5.04253 13.1731 4.91771 12.4692 4.91771 11.7452C4.91771 11.0213 5.04253 10.3173 5.2622 9.65832V6.8125H1.5926C0.848693 8.29532 0.424316 9.97285 0.424316 11.7452C0.424316 13.5176 0.848693 15.1952 1.5926 16.678L5.2622 13.8322Z" fill="#FBBC05"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4088 5.12981C13.0215 5.12981 14.4693 5.68399 15.6077 6.77239L18.758 3.62203C16.8558 1.84963 14.3695 0.76123 11.4088 0.76123C7.11515 0.76123 3.4006 3.22261 1.59326 6.81234L5.26287 9.65815C6.1266 7.06197 8.54804 5.12981 11.4088 5.12981Z" fill="#EA4335"/>
+                        </svg>
+                        Login with Google
+                    </span>
                 </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- mobile menu -->
-    <div class="mobile-menu hidden md:hidden">
-        <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-200">Classroom</a>
-        <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-200">About Us</a>
+            </form>
+        {% endif %}
     </div>
 </nav>

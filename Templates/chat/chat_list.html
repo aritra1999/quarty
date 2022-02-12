@@ -1,20 +1,29 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block extraHead %}{% endblock extraHead %}
-
 {% block content %}
-
-    Chat
-    <br>
-    {% for user in users %}
-        <a href="{% url 'chat' user %}">{{ user }}</a> <br>
-    {% endfor %}
-    
-
+    <h2 class="text-text text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium">Messages</h2>
+    <div class="grid gap-4 mt-8 grid-cols-1 md:grid-cols-2">
+        {% for user in users %}
+            {% if not user.is_superuser %}
+                <a class="text-text text-sm md:text-base" href="{% url 'chat' user %}">
+                    <div class="flex items-start bg-[#1E0938] py-2 sm:py-4 px-4 sm:px-8 rounded-md">
+                        <img
+                          src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+                          class="rounded-full h-10 sm:h-20 w-auto mr-4"
+                          alt=""
+                          draggable="false"
+                        />
+                        <div>
+                            {{ user.first_name }} {{ user.last_name }}
+                            <span class="block text-hint text-xs md:text-sm">
+                                Twenty seconds were all that was left and Richard could hear each one tick by. Fifteen seconds now remained and the panic began to fully set in. Ten seconds and he wasn't sure he had enough time.
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock content %}
-
-{% block extraFoot %}
-<script>
-
-</script>
-{% endblock extraFoot %}
+{% block extraFoot %}{% endblock extraFoot %}
