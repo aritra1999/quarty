@@ -1,11 +1,18 @@
 {% extends 'base/base.html' %}
 {% load socialaccount %}
 {% load static %}
-{% block extraHead %}{% endblock extraHead %}
+{% block extraHead %}
+    <style>
+        form input[type="radio"]:checked + label {
+            box-shadow: inset 0 0 0 2px #EE888F;
+        }
+    </style>
+{% endblock extraHead %}
 {% block content %}
     {% if request.user.is_authenticated %}
-        Dashboard or Timeline
-        {% else %}
+        {% include 'dashboard/add_post.html' %}
+        {% include 'dashboard/timeline.html' %}
+    {% else %}
         <div class="h-full flex flex-col items-center justify-center">
             <img src="{% static 'images/group.svg' %}" alt="Quarty" width="683" height="350" draggable="false" />
             <h1 class="text-text text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-8 max-w-2xl text-center">Your new quarantine place to hangout</h1>

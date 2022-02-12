@@ -1,0 +1,38 @@
+<div class="py-20">
+    <div class="w-full mx-auto lg:w-3/5 grid gap-10 lg:gap-12">
+        {% for post in posts %}
+            <div class="border-b border-[#ffffff30] pb-6">
+                <div class="flex items-center gap-4">
+                    <img src="{{ post.user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ post.user.username }}" class="h-12 w-auto rounded-full border-2 border-text" />
+                    <div>
+                        <p class="text-text text-base md:text-lg">{{ post.user.first_name }} {{ post.user.last_name }}</p>
+                        <p class="text-hint text-xs md:text-sm">{{ post.timestamp }}</p>
+                    </div>
+                </div>
+                {% if post.title %}
+                    <p class="mt-4 text-text text-sm md:text-base">{{ post.title }}</p>
+                {% endif %}
+                {% if post.thumbnail %}
+                    <div class="flex justify-center item-center bg-black mt-4 rounded-xl">
+                        <img src="{{ post.thumbnail.url }}" alt="" class="max-h-96 w-full rounded-xl object-cover object-scale-down">
+                    </div>
+                {% endif %}
+                <div class="mt-4 flex items-center gap-6">
+                    <span class="flex items-center gap-1 text-[#ffffff] text-xs md:text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffffff">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        {{ post.likes }}
+                    </span>
+                    <span class="flex items-center gap-1 text-[#ffffff] text-xs md:text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffffff">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+</svg>
+                        {{ post.comments }}
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{#    <div class="w-2/5 bg-text h-96"></div>#}
+</div>

@@ -1,0 +1,30 @@
+<form action="" method="post" class="block w-full">{% csrf_token %}
+    <div class="bg-[#2E2B6970] p-4 rounded-lg">
+        <textarea name="title" placeholder="What’s on your mind?" id="title" class="resize-none border-b border-[#ffffff30] w-full h-48 outline-none bg-transparent px-4 py-2 text-text placeholder:text-text focus:outline-none block"></textarea>
+        <div class="mt-4 flex flex-col lg:flex-row justify-between item-center">
+            <div class="flex gap-4 flex-wrap justify-center rounded-xl">
+                {% for type in post_type %}
+                    <input type="radio" name="post_type" id="{{ type }}" value="{{ type }}" class="hidden" />
+                    <label for="{{ type }}" class="bg-[#2E2B69] flex items-center justify-center inline-block text-text text-sm md:text-base px-6 py-2 rounded-full text-center cursor-pointer">{{ type }}</label>
+                {% endfor %}
+            </div>
+            <div class="flex gap-4 items-center justify-center mt-4 lg:mt-0">
+                <label class="flex flex-col items-center bg-text rounded-full px-6 py-2 cursor-pointer">
+                    <span class="text-sm md:text-base flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        Select a file
+                    </span>
+                    <input type='file' name="pic" class="hidden" />
+                </label>
+                <button type="submit" class="bg-[#007AFF] px-6 py-2 rounded-full text-text text-sm md:text-base flex items-center gap-2 justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Post</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

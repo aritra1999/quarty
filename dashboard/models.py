@@ -1,14 +1,14 @@
 from sqlite3 import Timestamp
 from django.db import models
 from django.contrib.auth.models import User
-
 from quarty.utils import slug_generator
 
-POST_TYPE_CHOICES =(
+POST_TYPE_CHOICES = (
     ("image", "Image"),
     ("blog", "Blog"),
     ("info", "Lead Info"),
 )
+
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,6 +19,7 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     comments = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
+    thumbnail = models.ImageField(upload_to='thumbnails/', null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.slug is None:
