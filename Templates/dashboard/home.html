@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block extraHead %}{% endblock extraHead %}
+
+{% block content %}
+
+
+    <div class="flex w-full h-full min-h-screen">
+        <div class="flex flex-col w-1/2 justify-center -mt-64">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Welcome to Quarty</h1>
+            <div>
+                <a href="{% url 'signup' %}" class="text-blue-700 underline">Create an account</a>.
+            </div>
+        </div>
+        <div class="flex w-1/2 justify-center -mt-64">
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+{% block extraFoot %}{% endblock extraFoot %}
