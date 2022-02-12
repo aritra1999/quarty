@@ -21,7 +21,6 @@ def chat_list(request):
 def chat_view(request, message_to): 
     messages = (Message.objects.filter(message_to__username=request.user, message_from__username=message_to) | \
                 Message.objects.filter(message_from__username=request.user, message_to__username=message_to)).order_by('timestamp')
-    # 'message_to_pic':SocialAccount.objects.get(user__username=message_to).extra_data.picture,
     try: 
         message_to_pic = SocialAccount.objects.get(user__username=message_to).extra_data['picture']
     except:
