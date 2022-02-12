@@ -1,5 +1,6 @@
+from unicodedata import name
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.views import LogoutView
 
 from dashboard.views import (
@@ -16,7 +17,6 @@ urlpatterns = [
 
     path('', home_view, name='home'),
 
-    path('auth/signin', signin_view, name='signin'),
-    path('auth/signup', signup_view, name='signup'),
-    path('auth/logout/', LogoutView.as_view(), name="logout")
+    path('accounts/', include('allauth.urls')),
+    path('logout', LogoutView.as_view(), name='logout'),
 ]
