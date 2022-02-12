@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block extraHead %}{% endblock extraHead %}
+
+{% block content %}
+
+    Chat
+    <br>
+    {% for user in users %}
+        <a href="{% url 'chat' user %}">{{ user }}</a> <br>
+    {% endfor %}
+    
+
+{% endblock content %}
+
+{% block extraFoot %}
+<script>
+
+</script>
+{% endblock extraFoot %}

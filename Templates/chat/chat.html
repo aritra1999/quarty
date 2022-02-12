@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block extraHead %}{% endblock extraHead %}
+
+{% block content %}
+
+    Chat with {{ message_to }}
+
+    <div id="chat-log">
+
+    </div>
+    <div class="flex">
+        <input type="text" id="chat-message-input" class="shadow appearance-none border rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4">Send</button>
+    </div>
+
+{% endblock content %}
+
+{% block extraFoot %}
+<script>
+
+    const message_from = "{{ request.user.username }}";
+    const message_to = "{{ message_to }}";
+    const room = "{{ room }}";
+
+    console.log(message_from, message_to, room);
+    const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + room + '/');
+
+    chatSocket.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        document.querySelector('#chat-log').innerHTML += `<b>${data.message_from}</b> - ${data.message}<br>`;
+    };
+
+    chatSocket.onclose = (e) => {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        if (message.length > 0) {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'message_from': message_from,
+                'message_to': message_to
+            }));
+            messageInputDom.value = '';
+        }
+    };
+
+</script>
+{% endblock extraFoot %}
