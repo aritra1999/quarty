@@ -9,6 +9,7 @@ from chat.views import (
     chat_list,
     chat_view
 )
+from recomendations.views import post_rec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,5 +21,7 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
 
     path('chat/', chat_list, name='chat_list'),
-    path('chat/<message_to>/', chat_view, name='chat')
+    path('chat/<message_to>/', chat_view, name='chat'),
+
+    path('rec/', post_rec, name='post_rec')
 ]
