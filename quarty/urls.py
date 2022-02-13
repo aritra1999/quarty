@@ -17,7 +17,7 @@ urlpatterns = [
     path('', home_view, name='home'),
 
     path('accounts/', include('allauth.urls')),
-    path('profile/', profile_view, name='profile'),
+    path('profile/<username>', profile_view, name='profile'),
     path('logout', LogoutView.as_view(), name='logout'),
 
     path('chat/', chat_list, name='chat_list'),

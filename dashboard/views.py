@@ -4,8 +4,8 @@ from .models import Post
 
 import requests
 
-def home_view(request):
 
+def home_view(request):
     context = {
         'title': 'Home',
         'post_type': ["Blog", "Picture", "Lead Info", "Video", "GIFs"],

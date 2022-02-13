@@ -11,3 +11,7 @@ body{
 a{
     text-decoration: none;
 }
+::-webkit-scrollbar {   width: 5px; }
+::-webkit-scrollbar-track {   background-color: #7877B1; }
+::-webkit-scrollbar-thumb {   background: #17082A70; border-radius: 6px }
+::-webkit-scrollbar-thumb:hover {   background: #17082A70 }
