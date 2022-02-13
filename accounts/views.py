@@ -15,6 +15,6 @@ def profile_view(request, username):
     context = {
         'title': user.first_name + " " + user.last_name,
         'profile': Profile.objects.get(user__username=username),
-        'posts': Post.objects.filter(user__username=username).order_by('timestamp')
+        'posts': Post.objects.filter(user__username=username).order_by('-timestamp')
     }
     return render(request, 'accounts/profile.html', context)

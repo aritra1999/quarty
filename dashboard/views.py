@@ -29,7 +29,7 @@ def add_post(request):
             return redirect('/')
         Post.objects.create(
             title=request.POST.get('title'),
-            type=request.POST.get('type'),
+            type=request.POST.get('post_type'),
             user=request.user,
             thumbnail=request.FILES['thumbnail']
         ).save()

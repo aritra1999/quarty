@@ -9,7 +9,6 @@ POST_TYPE_CHOICES = (
     ("info", "Lead Info"),
 )
 
-
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=1000, null=True, blank=True)
@@ -27,7 +26,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return str(self.title)
+        return str(self.type)
 
 
 class Comment(models.Model):
