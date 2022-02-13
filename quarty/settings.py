@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     # Django channel
-    # 'channels',
+    'channels',
     #Storage
     'storages',
     # Project apps
