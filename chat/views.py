@@ -10,9 +10,15 @@ from allauth.socialaccount.models import SocialAccount
 
 @login_required
 def chat_list(request): 
+    users = User.objects.all()
+
+    for user in users: 
+        user.message = (Message.objects.filter(message_to__username=user, message_from__username=request.user) | \
+                Message.objects.filter(message_from__username=user, message_to__username=request.user)).order_by('timestamp').last()    
+
     context = {
         'title': 'Chat',
-        'users': User.objects.all()
+        'users': users
     }
     return render(request, 'chat/chat_list.html', context)
 

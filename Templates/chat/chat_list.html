@@ -14,10 +14,13 @@
                           alt=""
                           draggable="false"
                         />
-                        <div>
-                            {{ user.first_name }} {{ user.last_name }}
+                        <div class="w-full">
+                            <div class="flex items-center justify-between">
+                                <div>{{ user.first_name }} {{ user.last_name }}</div>
+                                <div class="block text-hint text-xs md:text-sm">{{ user.message.timestamp }}</div>
+                            </div>
                             <span class="block text-hint text-xs md:text-sm">
-                                Twenty seconds were all that was left and Richard could hear each one tick by. Fifteen seconds now remained and the panic began to fully set in. Ten seconds and he wasn't sure he had enough time.
+                                {{ user.message }}
                             </span>
                         </div>
                     </div>
