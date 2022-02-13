@@ -8,13 +8,12 @@ def home_view(request):
 
     context = {
         'title': 'Home',
+        'post_type': ["Blog", "Picture", "Lead Info", "Video", "GIFs"],
     }
 
-    if request.user.is_authneticated: 
+    if request.user.is_authenticated: 
         context['news'] = requests.get('https://newsapi.org/v2/top-headlines?q=covid&apiKey=5966c307d22e4a9caf56e4935632ea77').json()
-        context['post_type'] = ["Blog", "Picture", "Lead Info", "Video", "GIFs"],
         context['posts'] = Post.objects.all().order_by('timestamp')
-
 
     return render(request, 'dashboard/home.html', context)
 
