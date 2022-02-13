@@ -10,9 +10,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 from sklearn.metrics.pairwise import linear_kernel
 # Reading datasets into dataframes
-df = pd.DataFrame(list())
+df = pd.DataFrame(list(Profile.Objects.all().user().values()))
 
-friends = pd.DataFrame(list)
+friends = pd.DataFrame(list(Friend.Objects.all().values()))
 
 # Adding Movie, Sport , Song and Book interests in Interests columns
 df["Interests"] = df["Movie_Tags"].astype(str) +"|"+ df["Sports_Tags"] +"|"+ df["Song_Tags"] +"|"+ df["Book_Tags"]
@@ -42,10 +42,10 @@ def user_recommendations(name):
     sim_scores = list(enumerate(cosine_sim[idx]))
     # Removing friends from the sim_score list so that only those users are recommended which aren't friends
     for i in range(friends.shape[0]):
-        if friends.User1[i] == indices[name]:
-            del sim_scores[friends.User2[i]]
-        elif friends.User2[i] == indices[name]:
-            del sim_scores[friends.User1[i]]
+        if friends.user1[i] == indices[name]:
+            del sim_scores[friends.user2[i]]
+        elif friends.user2[i] == indices[name]:
+            del sim_scores[friends.user1[i]]
     sim_scores = sorted(sim_scores, key=lambda x:x[1], reverse=True)
     sim_scores = sim_scores[1:21]
     user_indices = [i[0] for i in sim_scores]

@@ -17,9 +17,9 @@ posts.rename(columns={'id':'post_id', 'type':'post_type'})
 posts.tags.fillna("General", inplace = True)
 posts['tags'] = posts['tags'].str.split("|")
 posts['tags'] = posts['tags'].fillna("").astype('str')
-users = pd.DataFrame(list())
+users = pd.DataFrame(list(Profile.Objects.all().user().values()))
 
-likes = pd.DataFrame(list())
+likes = pd.DataFrame(list(Post.Objects.all().likes().values()))
 
 df = likes.merge(posts, on='post_id', how='left')
 df = df.merge(users, on='user_id', how='left')
