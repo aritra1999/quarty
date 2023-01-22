@@ -27,11 +27,16 @@ def add_post(request):
     if request.method == "POST":
         if request.POST.get('post_type') is None: 
             return redirect('/')
+        try: 
+            thubmnail = request.FILES['thumbnail']
+        except: 
+            thubmnail = None 
+
         Post.objects.create(
             title=request.POST.get('title'),
             type=request.POST.get('post_type'),
             user=request.user,
-            thumbnail=request.FILES['thumbnail']
+            thumbnail=thubmnail
         ).save()
 
     return redirect('/')
